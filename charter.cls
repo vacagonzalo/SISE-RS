@@ -182,34 +182,26 @@
 \def\@maketitle{%
 \newpage
 \thispagestyle{empty}
-\centering
+\begin{flushright}
+	\rule{16cm}{5pt}\vskip1cm
+	\begin{bfseries}
+		\Huge{ESPECIFICACIÓN DE REQUERIMIENTOS DE SOFTWARE}\\
+		\vspace{1.9cm}
+		Sistema de Inyección de Soft-errors (SEU,
+		SEFI) en un microcontrolador SAMV71
+		\\
+		\vspace{1.9cm}
+		\LARGE{Versión B}\\
+		\vspace{1.9cm}
+		Escrito por Gonzalo Nahuel Vaca\\
+		\vspace{1.9cm}
+		FIUBA\\
+		\vspace{1.9cm}
+		\today\\
+	\end{bfseries}
+\end{flushright}
 	
-	\centering \includegraphics[width=.7\textwidth]{./Figuras/logoFIUBA.png}
 	
-	\vspace{3cm}
-	{\Huge \textbf{\ttitle}} \\
-	\vspace{4cm}
-	
-	\flushleft
-	{\normalsize Autor:\\}
-	{\Large \authorname \\}
-	\vspace{1cm}
-	
-	{\normalsize Director:\\}
-	{\Large \supname \hspace{1px} (\pertesupname) \\}
-	%\vspace{2cm}
-	\ifbool{codirector}{% If the codirector class option has been specified
-	\vspace{10px}
-	{\normalsize Codirector:\\}
-	{\Large \cosupname  \hspace{1px} (\pertecosupname) \\}
-	}{\vspace{2pc}%nothing
-	}
-		
-	
-    \vfill
-    \centering
-    \textit{Esta planificación fue realizada en el curso de Gestión de proyectos\\ entre el \fechaInicioName \hspace{1px} y el  \fechaFinalPlanName.}
-		
 	\pagebreak
   }
 
