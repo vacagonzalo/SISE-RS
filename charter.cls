@@ -131,7 +131,7 @@
 
 \lhead{\includegraphics[width=4cm]{./Figuras/logoFIUBA.png}}
 \chead{}
-\rhead{\normalsize \textrm{Plan de proyecto de Trabajo final \\\degreename\\ \authorname}}
+\rhead{\normalsize \textrm{Especificación de requerimientos de software \\Sistema de inyección de soft-errors (SEU, SEFI)\\ \authorname}}
 \lfoot{ }
 \cfoot{\normalsize Página \thepage \hspace{1px} de \pageref{LastPage}}
 \rfoot{}
