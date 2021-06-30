@@ -60,7 +60,6 @@ codirector, % Uncomment to add a codirector to the title page
 \section*{Registros de cambios}
 \label{sec:registro}
 
-
 \begin{table}[ht]
 \label{tab:registro}
 \centering
@@ -68,9 +67,10 @@ codirector, % Uncomment to add a codirector to the title page
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
-0      & Creación del documento                                 &\fechaInicioName \\ \hline
-%1      & Se completa hasta el punto 4 inclusive                 & dd/mm/aaaa \\ \hline
-%2      & Se completa hasta el punto 7 inclusive
+A & Creación del documento & 27/06/2021 \\ \hline
+B & Se cambia el formato a pedido de la cátedra en la cursada del día 28/06/2021. \newline
+	Se incorporan cambios según la reunión del día 29/06/2021. & 29/06/2021 \\ \hline
+%2 & Se completa hasta el punto 7 inclusive
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
 %		  Así                                                    & dd/mm/aaaa \\ \hline
@@ -81,523 +81,154 @@ Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios 
 
 \pagebreak
 
+\section{1. Introducción}
+\label{sec:introduccion}
 
+\subsection{Propósito}
 
-\section*{Acta de constitución del proyecto}
-\label{sec:acta}
+Este documento representa una especificación de requerimientos de software para un sistema de inyección de soft-errors. Está dirigido a las personas que se ocupen de las siguientes tareas:
+\begin{itemize}
+	\item análisis
+	\item diseño
+	\item implementación
+	\item pruebas
+\end{itemize}
 
-\begin{flushright}
-Buenos Aires, \fechaInicioName
-\end{flushright}
+\subsection{Ámbito del sistema}
 
-\vspace{2cm}
+El nombre del sistema será SISE y permitirá inyectar errores en todos los registros accesibles del microcontrolador SAMV71. Su función será evaluar las técnicas de mitigación de soft-errors en funciones a ser utilizadas en misiones espaciales.
 
-Por medio de la presente se acuerda con el Ing. \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'', consistirá esencialmente en \textcolor{red}{la implementación de un prototipo de un sistema de control de temperatura de un calefón}, y tendrá un presupuesto preliminar estimado de \textcolor{red}{600} hs de trabajo y \textcolor{red}{\$XXX}, con fecha de inicio \fechaInicioName\hspace{1px} y fecha de presentación pública \fechaFinalName.
+El beneficio que se espera obtener es utilizar componentes que no fueron sometidos a un proceso de calificación. Los clasificados como alternativos.
 
-Se adjunta a esta acta la planificación inicial.
+\subsection{Definiciones, acrónimos y abreviaturas}
 
-\vfill
+\subsection{Referencias}
 
-% Esta parte se construye sola con la información que hayan cargado en el preámbulo del documento y no debe modificarla
-\begin{table}[ht]
-\centering
-\begin{tabular}{ccc}
-\begin{tabular}[c]{@{}c@{}}Ariel Lutenberg \\ Director posgrado FIUBA\end{tabular} & \hspace{2cm} & \begin{tabular}[c]{@{}c@{}}\clientename \\ \empclientename \end{tabular} \vspace{2.5cm} \\ 
-\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}} \supname \\ Director del Trabajo Final\end{tabular}} \vspace{2.5cm} \\
-%\begin{tabular}[c]{@{}c@{}}\jurunoname \\ Jurado del Trabajo Final\end{tabular}     &  & \begin{tabular}[c]{@{}c@{}}\jurdosname\\ Jurado del Trabajo Final\end{tabular}  \vspace{2.5cm}  \\
-%\multicolumn{3}{c}{\begin{tabular}[c]{@{}c@{}} \jurtresname\\ Jurado del Trabajo Final\end{tabular}} \vspace{.5cm}                                                                     
-\end{tabular}
-\end{table}
+INVAP - Propuesta de tesis: sistema de inyección de soft-errors.
 
+\subsection{Visión general del documento}
 
+Este documento se realizó según lo especificado en el estándar IEEE Std. 830-1998.
 
-
-\section{1. Descripción técnica-conceptual del proyecto a realizar}
+\section{2. Descripción general}
 \label{sec:descripcion}
 
+\subsection{Perspectiva del producto}
 
-\begin{consigna}{red} % El bloque "consigna" se usa para poner texto en rojo y dar una pequeña ayuda sobre cómo completar la sección
+El software aquí especificado es independiente de otros sistemas y no tiene relación con otros productos.
+En la figura \ref{fig:esqGral} se puede observar el campo de acción del software propuesto.
 
-El objetivo es que el lector en una o dos páginas entienda de qué se trata el proyecto y cuáles son sus desafíos, su motivación y su importancia.
-
-Se debe destacar claramente cuál es el valor que agrega el proyecto a realizar. ``El presente proyecto se destaca especialmente por incorporar tal cosa... Esto lo diferencia de otros sistemas similares en que ...''
-
-Puede ser útil incluir en esta sección la respuesta a alguna de estas preguntas:
-
-\begin{itemize}
-	\item ¿Cómo se vincula este proyecto con la misión de la organización?
-	\item ¿Cómo se inserta este proyecto en el modelo de negocio de la organización?
-	\item ¿Ayuda a la explicación si se incluye un lienzo Canvas del Modelo de Negocio?
-	\item ¿En qué estado del ciclo de vida está el producto que se desea reemplazar o mejorar?
-	\item ¿Cuáles son las necesidades que debe satisfacer?
-	\item ¿Por dónde pasa la innovación?
-\end{itemize}
-
-La descripción técnica-conceptual \textbf{debe incluir al menos un diagrama en bloques del sistema} y una frase como la siguiente: ``En la Figura \ref{fig:diagBloques} se presenta el diagrama en bloques del sistema. Se observa que...''. Luego recién más abajo de haber puesto esta frase, se pone la figura. La regla es que las figuras nunca pueden ir antes de ser mencionadas en el texto, porque sino el lector no entiende por qué de pronto aparece una figura.
-
-%\vspace{25px}
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=.5\textwidth]{./Figuras/diagBloques.png}
-\caption{Diagrama en bloques del sistema}
-\label{fig:diagBloques}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{./Figuras/SISE.png}
+	\caption{esquema general del sistema.}
+	\label{fig:esqGral}
 \end{figure}
 
-\vspace{25px}
+El inyector de soft-errors deberá modificar los registros del microcontrolador SAMV71 según lo dispuesto en la descripción del ensayo.
+En simultaneo, se debe persistir la modificación realizada.
+Luego, se debe reportar el estado de funcionamiento del microcontrolador.
+Finalmente, los reportes deben ser persistidos para su análisis.
 
-El tamaño de la tipografía en TODAS las figuras debe ser adecuado para que NO pase lo que ocurre acá, donde el lector debe esforzarse para poder leer el texto. Los colores usados en el diagrama deben ser adecuados, tal que ayuden a comprender mejor el diagrama, preferentemente en la gama de colores pastel.
-\end{consigna}
+\subsection{Funciones del producto}
 
-
-\section{2. Identificación y análisis de los interesados}
-\label{sec:interesados}
-
-\begin{consigna}{red} 
-Nota: (borrar esto y todas las consignas en color rojo antes de entregar este documento).
- 
-Es inusual que una misma persona esté en más de un rol, incluso en proyectos chicos.
- 
-Si se considera que una persona cumple dos o más roles, entonces sólo dejarla en el rol más importante. Por ejemplo:
+El software aquí especificado brindará las siguientes funcionalidades:
 
 \begin{itemize}
-\item Si una persona es Cliente pero también colabora u orienta, dejarla solo como Cliente.
-\item Si una persona es el Responsable, no debe ser colocado también como Miembro del equipo.
+	\item Inyección de errores en todos los registros accesibles del microcontrolador SAMV71.
+	\item Monitoreo del estado de funcionamiento del microcontrolador SAMV71.
+	\item Persistencia de los soft-errors inyectados.
+	\item Persistencia de los informes de estado de funcionamiento.
+	\item Permitir escribir ensayos de evaluación.
+	\item Presentación de resultados en histogramas que permitan un análisis estadístico.
 \end{itemize}
 
-Pero en cambio sí es usual que el Cliente y el Auspiciante sean el mismo, por ejemplo.
+\subsection{Características de los usuarios}
 
-\begin{table}[ht]
-%\caption{Identificación de los interesados}
-%\label{tab:interesados}
-\begin{tabularx}{\linewidth}{@{}|l|X|X|l|@{}}
-\hline
-\rowcolor[HTML]{C0C0C0} 
-Rol           & Nombre y Apellido & Organización 	& Puesto 	\\ \hline
-Auspiciante   &                   &              	&        	\\ \hline
-Cliente       & \clientename      &\empclientename	&        	\\ \hline
-Impulsor      &                   &              	&        	\\ \hline
-Responsable   & \authorname       & FIUBA        	& Alumno 	\\ \hline
-Colaboradores &                   &              	&        	\\ \hline
-Orientador    & \supname	      & \pertesupname 	& Director Trabajo final \\ \hline
-Equipo        & miembro1 \newline 
-				miembro2          &              	&        	\\ \hline
-Opositores    &                   &              	&        	\\ \hline
-Usuario final &                   &              	&        	\\ \hline
-\end{tabularx}
-\end{table}
+Los usuarios finales de este producto son ingenieros de desarrollo del INVAP.
 
-El Director suele ser uno de los Orientadores.
+\subsection{Restricciones}
 
-No dejar celdas vacías; si no hay nada que poner en una celda colocar un signo ``-''.
-
-No dejar filas vacías; si no hay nada que poner en una fila entonces eliminarla.
-
-Es deseable listar a continuación las principales características de cada interesado.
- 
-Por ejemplo:
-\begin{itemize}
-	\item Auspiciante: es riguroso y exigente con la rendición de gastos. Tener mucho cuidado con esto.
-	\item Equipo: Juan Perez, suele pedir licencia porque tiene un familiar con una enfermedad. Planificar considerando esto.
-	\item Orientador: María Gómez va a poder ayudar mucho con la definición de los requerimientos.
-\end{itemize}
-
-\end{consigna}
-
-
-
-\section{3. Propósito del proyecto}
-\label{sec:proposito}
-
-\begin{consigna}{red}
-¿Por qué se hace el proyecto? ¿Qué se quiere lograr? 
-
-Se recomienda que sea solo un párrafo que empiece diciendo ``El propósito de este proyecto es...''.
-\end{consigna}
-
-\section{4. Alcance del proyecto}
-\label{sec:alcance}
-
-\begin{consigna}{red}
-¿Qué se incluye y que no se incluye en este proyecto?
-
-Se refiere al trabajo a hacer para entregar el producto o resultado especificado. 
-
-Explicitar todo lo quede comprendido dentro del alcance del proyecto.
-
-Explicitar además todo lo que no quede incluido (``El presente proyecto no incluye...'')
-
-\end{consigna}
-
-
-\section{5. Supuestos del proyecto}
-\label{sec:supuestos}
-
-\begin{consigna}{red}
-``Para el desarrollo del presente proyecto se supone que: ...''
+Las restricciones del desarrollo del sistema son las siguientes:
 
 \begin{itemize}
-	\item Supuesto 1
-	\item Supuesto 2...
+	\item Utilización de repositorio con control de versiones Gitlab.
+	\item Documentación del código con Doxygen.
+	\item Utilización exclusiva del lenguaje de programación Python.
 \end{itemize}
 
-Por ejemplo, se podrían incluir supuestos respecto a disponibilidad de tiempo y recursos humanos y materiales, sobre la factibilidad técnica de distintos aspectos del proyecto, sobre otras cuestiones que sean necesarias para el éxito del proyecto como condiciones macroeconómicas o reglamentarias.
-\end{consigna}
+\subsection{Suposiciones y dependencias}
 
-\section{6. Requerimientos}
-\label{sec:requerimientos}
+La suposición principal es que se tendrá acceso irrestricto al microcontrolador SAMV71.
 
-\begin{consigna}{red}
-Los requerimientos deben numerarse y de ser posible estar agruparlos por afinidad, por ejemplo:
+\subsection{Requisitos futuros}
+
+N/A
+
+
+\section{3. Requisitos específicos}
+\label{sec:requisitos}
+
+
+\subsection{Interfaces externas}
+
+\begin{itemize}
+	\item El software deberá comunicarse por USB con el debugger [SISE-RS-0001-REQ0001].
+	\item El software deberá comunicarse por protocolo SERIAL con el microcontrolador SAMV71 [SISE-RS-0001-REQ0002].
+\end{itemize}
+
+\subsection{Funciones}
 
 \begin{enumerate}
-	\item Requerimientos funcionales
-		\begin{enumerate}
-			\item El sistema debe...
-			\item Tal componente debe...
-			\item El usuario debe poder...
-		\end{enumerate}
-	\item Requerimientos de documentación
-		\begin{enumerate}
-			\item Requerimiento 1
-			\item Requerimiento 2 (prioridad menor)
-		\end{enumerate}
-	\item Requerimiento de testing...
-	\item Requerimientos de la interfaz...
-	\item Requerimientos interoperabilidad...
-	\item etc...
+	\item Inyección de soft-errors:
+	\begin{itemize}
+		\item Deberá realizar escrituras de 32 bits en la memoria ram [SISE-RS-0001-REQ0003].
+		\item Deberá realizar bit-flips en la memoria ram [SISE-RS-0001-REQ0004].
+		\item Deberá realizar escrituras en los registros internos respetando su tamaño en bits [SISE-RS-0001-REQ0005].
+		\item Deberá realizar bit-flips en los registros internos respetando su tamaño en bits [SISE-RS-0001-REQ0006].
+	\end{itemize}
+	\item Recepción de reportes:
+	\begin{itemize}
+		\item Deberá recibir los reportes de estado [SISE-RS-0001-REQ0007].
+		\item Deberá relacionar los reportes de estado con la última inyección de soft-error introducida [SISE-RS-0001-REQ0008].
+	\end{itemize}
+	\item Almacenamiento de reportes:
+	\begin{itemize}
+		\item Deberá indicar el tiempo transcurrido desde la inyección de soft-error que la precede [SISE-RS-0001-REQ0009].
+		\item Deberá generar histogramas para su análisis estadístico [SISE-RS-0001-REQ0010].
+	\end{itemize}
 \end{enumerate}
 
-Leyendo los requerimientos se debe poder interpretar cómo será el proyecto y su funcionalidad.
+\subsection{Requisitos de rendimiento}
 
-Indicar claramente cuál es la prioridad entre los distintos requerimientos y si hay requerimientos opcionales. 
+El inyector de soft-errors deberá realizar la inserción solicitada en un tiempo menor a 10 ms [SISE-RS-0001-REQ0011].
 
-No olvidarse de que los requerimientos incluyen a las regulaciones y normas vigentes!!!
+\subsection{Restricciones de diseño}
 
-Y al escribirlos seguir las siguientes reglas:
-\begin{itemize}
-	\item Ser breve y conciso (nadie lee cosas largas). 
-	\item Ser específico: no dejar lugar a confusiones.
-	\item Expresar los requerimientos en términos que sean cuantificables y medibles.
-\end{itemize}
+Se utilizará el microcontrolador SAMV71 como dispositivo principal [SISE-RS-0001-REQ0012].
 
-\end{consigna}
-
-\section{7. Historias de usuarios (\textit{Product backlog})}
-\label{sec:backlog}
-
-\begin{consigna}{red}
-Descripción: En esta sección se deben incluir las historias de usuarios y su ponderación (\textit{history points}). Recordar que las historias de usuarios son descripciones cortas y simples de una característica contada desde la perspectiva de la persona que desea la nueva capacidad, generalmente un usuario o cliente del sistema. La ponderación es un número entero que representa el tamaño de la historia comparada con otras historias de similar tipo.
-
-El formato propuesto es: "como [rol] quiero [tal cosa] para [tal otra cosa]."
-
-Se debe indicar explícitamente el criterio para calcular los \textit{story points} de cada historia
-\end{consigna}
-
-\section{8. Entregables principales del proyecto}
-\label{sec:entregables}
-
-\begin{consigna}{red}
-
-Los entregables del proyecto son (ejemplo):
-
-\begin{itemize}
-	\item Manual de uso
-	\item Diagrama de circuitos esquemáticos
-	\item Código fuente del firmware
-	\item Diagrama de instalación
-	\item Informe final
-	\item etc...
-\end{itemize}
-
-\end{consigna}
-
-\section{9. Desglose del trabajo en tareas}
-\label{sec:wbs}
-
-\begin{consigna}{red}
-El WBS debe tener relación directa o indirecta con los requerimientos.  Son todas las actividades que se harán en el proyecto para dar cumplimiento a los requerimientos. Se recomienda mostrar el WBS mediante una lista indexada:
+\subsection{Atributos del sistema}
 
 \begin{enumerate}
-\item Grupo de tareas 1
-	\begin{enumerate}
-	\item Tarea 1 (tantas hs)
-	\item Tarea 2 (tantas hs)
-	\item Tarea 3 (tantas hs)
-	\end{enumerate}
-\item Grupo de tareas 2
-	\begin{enumerate}
-	\item Tarea 1 (tantas hs)
-	\item Tarea 2 (tantas hs)
-	\item Tarea 3 (tantas hs)
-	\end{enumerate}
-\item Grupo de tareas 3
-	\begin{enumerate}
-	\item Tarea 1 (tantas hs)
-	\item Tarea 2 (tantas hs)
-	\item Tarea 3 (tantas hs)
-	\item Tarea 4 (tantas hs)
-	\item Tarea 5 (tantas hs)
-	\end{enumerate}
+	\item Mantenibilidad:
+	\begin{itemize}
+		\item El software deberá permitir su modificación para trabajar con otras arquitecturas [SISE-RS-0001-REQ0013].
+	\end{itemize}
 \end{enumerate}
 
-Cantidad total de horas: (tantas hs)
+\subsection{Otros requisitos}
 
-Se recomienda que no haya ninguna tarea que lleve más de 40 hs. 
+N/A.
 
-\end{consigna}
+\section{4. Apéndices}
+\label{sec:apendices}
 
-\section{10. Diagrama de Activity On Node}
-\label{sec:AoN}
+%\subsection{Formatos de entrada/salida}
 
-\begin{consigna}{red}
-Armar el AoN a partir del WBS definido en la etapa anterior. 
+%\subsection{Resultados de análisis de costes}
 
-%La figura \ref{fig:AoN} fue elaborada con el paquete latex tikz y pueden consultar la siguiente referencia \textit{online}:
+\subsection{Restricciones acerca del lenguaje de programación}
 
-%\url{https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ:_A_Tutorial_for_Beginners_(Part_3)\%E2\%80\%94Creating_Flowcharts}
-
-\end{consigna}
-
-\begin{figure}[htpb]
-\centering 
-\includegraphics[width=.8\textwidth]{./Figuras/AoN.png}
-\caption{Diagrama en \textit{Activity on Node}}
-\label{fig:AoN}
-\end{figure}
-
-Indicar claramente en qué unidades están expresados los tiempos.
-De ser necesario indicar los caminos semicríticos y analizar sus tiempos mediante un cuadro.
-Es recomendable usar colores y un cuadro indicativo describiendo qué representa cada color, como se muestra en el siguiente ejemplo:
-
-
-
-\section{11. Diagrama de Gantt}
-\label{sec:gantt}
-
-\begin{consigna}{red}
-
-Existen muchos programas y recursos \textit{online} para hacer diagramas de gantt, entre los cuales destacamos:
-
-\begin{itemize}
-\item Planner
-\item GanttProject
-\item Trello + \textit{plugins}. En el siguiente link hay un tutorial oficial: \\ \url{https://blog.trello.com/es/diagrama-de-gantt-de-un-proyecto}
-\item Creately, herramienta online colaborativa. \\\url{https://creately.com/diagram/example/ieb3p3ml/LaTeX}
-\item Se puede hacer en latex con el paquete \textit{pgfgantt}\\ \url{http://ctan.dcc.uchile.cl/graphics/pgf/contrib/pgfgantt/pgfgantt.pdf}
-\end{itemize}
-
-Pegar acá una captura de pantalla del diagrama de Gantt, cuidando que la letra sea suficientemente grande como para ser legible. 
-Si el diagrama queda demasiado ancho, se puede pegar primero la ``tabla'' del Gantt y luego pegar la parte del diagrama de barras del diagrama de Gantt.
-
-Configurar el software para que en la parte de la tabla muestre los códigos del EDT (WBS).\\
-Configurar el software para que al lado de cada barra muestre el nombre de cada tarea.\\
-Revisar que la fecha de finalización coincida con lo indicado en el Acta Constitutiva.
-
-En la figura \ref{fig:gantt}, se muestra un ejemplo de diagrama de gantt realizado con el paquete de \textit{pgfgantt}. En la plantilla pueden ver el código que lo genera y usarlo de base para construir el propio.
-
-\begin{figure}[htbp]
-\begin{center}
-\begin{ganttchart}{1}{12}
-  \gantttitle{2020}{12} \\
-  \gantttitlelist{1,...,12}{1} \\
-  \ganttgroup{Group 1}{1}{7} \\
-  \ganttbar{Task 1}{1}{2} \\
-  \ganttlinkedbar{Task 2}{3}{7} \ganttnewline
-  \ganttmilestone{Milestone o hito}{7} \ganttnewline
-  \ganttbar{Final Task}{8}{12}
-  \ganttlink{elem2}{elem3}
-  \ganttlink{elem3}{elem4}
-\end{ganttchart}
-\end{center}
-\caption{Diagrama de gantt de ejemplo}
-\label{fig:gantt}
-\end{figure}
-
-
-\begin{landscape}
-\begin{figure}[htpb]
-\centering 
-\includegraphics[height=.85\textheight]{./Figuras/Gantt-2.png}
-\caption{Ejemplo de diagrama de Gantt rotado}
-\label{fig:diagGantt}
-\end{figure}
-
-\end{landscape}
-
-\end{consigna}
-
-
-\section{12. Presupuesto detallado del proyecto}
-\label{sec:presupuesto}
-
-\begin{consigna}{red}
-Si el proyecto es complejo entonces separarlo en partes:
-\begin{itemize}
-	\item Un total global, indicando el subtotal acumulado por cada una de las áreas.
-	\item El desglose detallado del subtotal de cada una de las áreas.
-\end{itemize}
-
-IMPORTANTE: No olvidarse de considerar los COSTOS INDIRECTOS.
-
-\end{consigna}
-
-\begin{table}[htpb]
-\centering
-\begin{tabularx}{\linewidth}{@{}|X|c|r|r|@{}}
-\hline
-\rowcolor[HTML]{C0C0C0} 
-\multicolumn{4}{|c|}{\cellcolor[HTML]{C0C0C0}COSTOS DIRECTOS} \\ \hline
-\rowcolor[HTML]{C0C0C0} 
-Descripción &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\ \hline
- &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} \\ \hline
- &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} &
-  \multicolumn{1}{c|}{} \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{3}{|c|}{SUBTOTAL} &
-  \multicolumn{1}{c|}{} \\ \hline
-\rowcolor[HTML]{C0C0C0} 
-\multicolumn{4}{|c|}{\cellcolor[HTML]{C0C0C0}COSTOS INDIRECTOS} \\ \hline
-\rowcolor[HTML]{C0C0C0} 
-Descripción &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Cantidad} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor unitario} &
-  \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Valor total} \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{1}{|l|}{} &
-   &
-   &
-   \\ \hline
-\multicolumn{3}{|c|}{SUBTOTAL} &
-  \multicolumn{1}{c|}{} \\ \hline
-\rowcolor[HTML]{C0C0C0}
-\multicolumn{3}{|c|}{TOTAL} &
-   \\ \hline
-\end{tabularx}%
-\end{table}
-
-
-\section{13. Gestión de riesgos}
-\label{sec:riesgos}
-
-\begin{consigna}{red}
-a) Identificación de los riesgos (al menos cinco) y estimación de sus consecuencias:
- 
-Riesgo 1: detallar el riesgo (riesgo es algo que si ocurre altera los planes previstos de forma negativa)
-\begin{itemize}
-	\item Severidad (S): mientras más severo, más alto es el número (usar números del 1 al 10).\\
-	Justificar el motivo por el cual se asigna determinado número de severidad (S).
-	\item Probabilidad de ocurrencia (O): mientras más probable, más alto es el número (usar del 1 al 10).\\
-	Justificar el motivo por el cual se asigna determinado número de (O). 
-\end{itemize}   
-
-Riesgo 2:
-\begin{itemize}
-	\item Severidad (S): 
-	\item Ocurrencia (O):
-\end{itemize}
-
-Riesgo 3:
-\begin{itemize}
-	\item Severidad (S): 
-	\item Ocurrencia (O):
-\end{itemize}
-
-
-b) Tabla de gestión de riesgos:      (El RPN se calcula como RPN=SxO)
-
-\begin{table}[htpb]
-\centering
-\begin{tabularx}{\linewidth}{@{}|X|c|c|c|c|c|c|@{}}
-\hline
-\rowcolor[HTML]{C0C0C0} 
-Riesgo & S & O & RPN & S* & O* & RPN* \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-\end{tabularx}%
-\end{table}
-
-Criterio adoptado: 
-Se tomarán medidas de mitigación en los riesgos cuyos números de RPN sean mayores a...
-
-Nota: los valores marcados con (*) en la tabla corresponden luego de haber aplicado la mitigación.
-
-c) Plan de mitigación de los riesgos que originalmente excedían el RPN máximo establecido:
- 
-Riesgo 1: plan de mitigación (si por el RPN fuera necesario elaborar un plan de mitigación).
-  Nueva asignación de S y O, con su respectiva justificación:
-  - Severidad (S): mientras más severo, más alto es el número (usar números del 1 al 10).
-          Justificar el motivo por el cual se asigna determinado número de severidad (S).
-  - Probabilidad de ocurrencia (O): mientras más probable, más alto es el número (usar del 1 al 10).
-          Justificar el motivo por el cual se asigna determinado número de (O).
-
-Riesgo 2: plan de mitigación (si por el RPN fuera necesario elaborar un plan de mitigación).
- 
-Riesgo 3: plan de mitigación (si por el RPN fuera necesario elaborar un plan de mitigación).
-
-\end{consigna}
-
-
-\section{14. Gestión de la calidad}
-\label{sec:calidad}
-
-\begin{consigna}{red}
-Para cada uno de los requerimientos del proyecto indique:
-\begin{itemize} 
-\item Req \#1: copiar acá el requerimiento.
-
-\begin{itemize}
-	\item Verificación para confirmar si se cumplió con lo requerido antes de mostrar el sistema al cliente. Detallar 
-	\item Validación con el cliente para confirmar que está de acuerdo en que se cumplió con lo requerido. Detallar  
-\end{itemize}
-
-\end{itemize}
-
-Tener en cuenta que en este contexto se pueden mencionar simulaciones, cálculos, revisión de hojas de datos, consulta con expertos, mediciones, etc.  Las acciones de verificación suelen considerar al entregable como ``caja blanca'', es decir se conoce en profundidad su funcionamiento interno.  En cambio, las acciones de validación suelen considerar al entregable como ``caja negra'', es decir, que no se conocen los detalles de su funcionamiento interno.
-
-\end{consigna}
-
-\section{15. Procesos de cierre}    
-\label{sec:cierre}
-
-\begin{consigna}{red}
-Establecer las pautas de trabajo para realizar una reunión final de evaluación del proyecto, tal que contemple las siguientes actividades:
-
-\begin{itemize}
-	\item Pautas de trabajo que se seguirán para analizar si se respetó el Plan de Proyecto original:
-	 - Indicar quién se ocupará de hacer esto y cuál será el procedimiento a aplicar. 
-	\item Identificación de las técnicas y procedimientos útiles e inútiles que se emplearon, y los problemas que surgieron y cómo se solucionaron:
-	 - Indicar quién se ocupará de hacer esto y cuál será el procedimiento para dejar registro.
-	\item Indicar quién organizará el acto de agradecimiento a todos los interesados, y en especial al equipo de trabajo y colaboradores:
-	  - Indicar esto y quién financiará los gastos correspondientes.
-\end{itemize}
-
-\end{consigna}
-
+El lenguaje de programación será Python 3 y el código deberá ser documentado según las recomendaciones del manual de usuario de Doxygen.
 
 \end{document}
