@@ -231,29 +231,32 @@ N/A
 		\item \req{006} invertirá el valor de un bit dentro de un registro interno.
 		\item \req{007} reportará el estado del microcontrolador antes de realizar una inyección de \emph{soft-errors}.
 		\item \req{008} interpretará una descripción de ensayo escrita en \emph{Python 3} y ejecutará las inyecciones según le indique.
+		\item \req{009} aceptará descripciones de ensayo que impongan una tasa de error para cada registro interno.
+		\item \req{010} procesará descripciones de ensayo que impongan una tasa de error para una posición o rango de memoria \emph{RAM}.
+		\item \req{011} las descripciones de ensayo podrán especificar probabilidades de error con una resolución de 1 bit.
 	\end{itemize}
 	\item \emph{Firmware} de \emph{self-testing}:
 	\begin{itemize}
-		\item \req{009} detectará el funcionamiento anormal de los periféricos del microcontrolador \emph{SAMV71}.
-		\item \req{010} reportará periódicamente el estado de los periféricos utilizando el protocolo \emph{Serial}.
-		\item \req{011} los reportes tendrán un formato \emph{CSV} y un tamaño menor a 10 kB.
+		\item \req{012} detectará el funcionamiento anormal de los periféricos del microcontrolador \emph{SAMV71}.
+		\item \req{013} reportará periódicamente el estado de los periféricos utilizando el protocolo \emph{Serial}.
+		\item \req{014} los reportes tendrán un formato \emph{CSV} y un tamaño menor a 5 kB.
 	\end{itemize}
 	\item Almacenamiento de reportes:
 	\begin{itemize}
-		\item \req{012} se incluirá un \emph{timestamp} de recepción del reporte.
-		\item \req{013} se generarán histogramas para su análisis estadístico.
+		\item \req{015} se incluirá un \emph{timestamp} de recepción del reporte.
+		\item \req{016} se generarán histogramas para su análisis estadístico.
 	\end{itemize}
 \end{enumerate}
 
 \subsection{Requisitos de rendimiento}
 \label{sub:rendimiento}
 
-\req{014} el inyector de soft-errors deberá realizar la inserción solicitada en un tiempo menor a 10 ms.
+\req{017} el inyector de soft-errors deberá realizar la inserción solicitada en un tiempo menor a 10 ms.
 
 \subsection{Restricciones de diseño}
 \label{sub:restriccionesDiseño}
 
-\req{015} se utilizará el microcontrolador \emph{SAMV71} como dispositivo principal.
+\req{018} se utilizará el microcontrolador \emph{SAMV71} como dispositivo principal.
 
 \subsection{Atributos del sistema}
 \label{sub:atributos}
@@ -261,7 +264,7 @@ N/A
 \begin{enumerate}
 	\item Mantenibilidad:
 	\begin{itemize}
-		\item \req{016} el software deberá permitir su modificación para trabajar con otras arquitecturas.
+		\item \req{019} el software deberá permitir su modificación para trabajar con otras arquitecturas.
 	\end{itemize}
 \end{enumerate}
 
