@@ -39,6 +39,8 @@ codirector, % Uncomment to add a codirector to the title page
 \fechaFINALPlan{18 de junio de 2021} 	%Fecha de final de cursada de GdP
 \fechaFINALTrabajo{15 de mayo de 2022}	%Fecha de defensa pública del trabajo final
 
+\def\codigo{SISE-RS}
+\newcommand{\req}[1]{\textbf{[\codigo-#1]:}}
 
 \begin{document}
 
@@ -65,14 +67,10 @@ codirector, % Uncomment to add a codirector to the title page
 \rowcolor[HTML]{C0C0C0} 
 Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
 A & Creación del documento & 27/06/2021 \\ \hline
-B & Se cambia el formato a pedido de la cátedra en la cursada del día 28/06/2021. \newline
-	Se incorporan cambios según la reunión del día 29/06/2021. & 29/06/2021 \\ \hline
-%2 & Se completa hasta el punto 7 inclusive
-%		  Se puede agregar algo más \newline
-%		  En distintas líneas \newline
-%		  Así                                                    & dd/mm/aaaa \\ \hline
-%3      & Se completa hasta el punto 11 inclusive                & dd/mm/aaaa \\ \hline
-%4      & Se completa el plan	                                 & dd/mm/aaaa \\ \hline
+B & Se agrega encabezado en la plantilla del documento. \newline
+	Modificación de la tabla de registro de cambios. \newline
+	Nuevo formato de enumeración de requisitos.\newline
+	Se amplia la sección \ref{sub:perspectiva}. & 03/07/2021 \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -82,8 +80,10 @@ B & Se cambia el formato a pedido de la cátedra en la cursada del día 28/06/20
 \label{sec:introduccion}
 
 \subsection{Propósito}
+\label{sub:proposito}
 
-Este documento representa una especificación de requerimientos de software para un sistema de inyección de soft-errors. Está dirigido a las personas que se ocupen de las siguientes tareas:
+Este documento representa una especificación de requerimientos de software para un sistema de inyección de \emph{soft-errors} y un \emph{firmware} de \emph{self-testing}.
+Está dirigido a las personas que se ocupen de las siguientes tareas:
 \begin{itemize}
 	\item análisis
 	\item diseño
@@ -92,42 +92,82 @@ Este documento representa una especificación de requerimientos de software para
 \end{itemize}
 
 \subsection{Ámbito del sistema}
+\label{sub:ambito}
 
-El nombre del sistema será SISE y permitirá inyectar errores en todos los registros accesibles del microcontrolador SAMV71. Su función será evaluar las técnicas de mitigación de soft-errors en funciones a ser utilizadas en misiones espaciales.
+El nombre del sistema será SISE y permitirá inyectar errores en todos los registros accesibles del microcontrolador \emph{SAMV71}.
+Su función será evaluar las técnicas de mitigación de \emph{soft-errors} en funciones a ser utilizadas en la misión \emph{Sabiamar}.
+Adicionalmente, se proveerá un \emph{firmware} de \emph{self-testing} para determinar los presupuestos de \emph{hardware}.
 
-El beneficio que se espera obtener es utilizar componentes que no fueron sometidos a un proceso de calificación. Los clasificados como alternativos.
+El beneficio que se espera obtener es utilizar componentes que no fueron sometidos a un proceso de calificación (alternativos).
+Además, se espera simular los 5 años de misión en un tiempo acelerado.
 
 \subsection{Definiciones, acrónimos y abreviaturas}
+\label{sub:definiciones}
+
+\begin{enumerate}
+	\item Definiciones:
+		\begin{itemize}
+			\item Sabiamar: constelación de dos satélites argentino-brasileños para la información del mar.
+			\item soft-errors: modificación no destructiva del valor de un registro o memoria.
+		\end{itemize}
+	\item Acrónimos:
+		\begin{itemize}
+			\item CSV: comma separated value.
+			\item IEEE: Institute of Electrical and Electronics Engineers.
+			\item JTAG: Join Test Action Group.
+			\item RAM: random access memory.
+			\item TCP: transfer control protocol.
+		\end{itemize}
+	\item Abreviaturas:
+		\begin{itemize}
+			\item Std: estándar.
+		\end{itemize}
+\end{enumerate}
 
 \subsection{Referencias}
-
+\label{sub:referencias}
 INVAP - Propuesta de tesis: sistema de inyección de soft-errors.
 
 \subsection{Visión general del documento}
+\label{sub:vision}
 
 Este documento se realizó según lo especificado en el estándar IEEE Std. 830-1998.
 
+\newpage
 \section{2. Descripción general}
-\label{sec:descripcion}
+\label{seb:descripcion}
 
 \subsection{Perspectiva del producto}
+\label{sub:perspectiva}
 
 El software aquí especificado es independiente de otros sistemas y no tiene relación con otros productos.
-En la figura \ref{fig:esqGral} se puede observar el campo de acción del software propuesto.
+
+El principio de inyección de \emph{soft-erros} se basará en conectarse al microcontrolador a través de su interfaz de \emph{debug}; se procederá a suspender la ejecución del \emph{firmware} y luego se realizarán las modificaciones necesarias.
+
+En la figura \ref{fig:esqInyeccion} se puede observar un esquema general del proceso de inyección de \emph{soft-errors}.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.7\textwidth]{./Figuras/SISE.png}
-	\caption{esquema general del sistema.}
-	\label{fig:esqGral}
+	\includegraphics[width=\textwidth]{./Figuras/inyeccion.png}
+	\caption{Esquema general de inyección de \emph{soft-errors}.}
+	\label{fig:esqInyeccion}
 \end{figure}
 
-El inyector de soft-errors deberá modificar los registros del microcontrolador SAMV71 según lo dispuesto en la descripción del ensayo.
-En simultaneo, se debe persistir la modificación realizada.
-Luego, se debe reportar el estado de funcionamiento del microcontrolador.
-Finalmente, los reportes deben ser persistidos para su análisis.
+El inyector de \emph{soft-errors} deberá modificar obtener la información de los registros del microcontrolador SAMV71 antes de realizar una modificación.
+Finalmente, debe persistir la operación realizada junto a los datos previos a la inyección.
+
+Adicionalmente, se entregará un \emph{firmware} de \emph{self-testing} que generará reportes sobre el funcionamiento de los periféricos del microcontrolador \emph{SAMV71}.
+En la figura \ref{fig:esqSelfTesting} se puede ver un esquema general del proceso de \emph{self-testing}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{./Figuras/selfTesting.png}
+	\caption{Esquema general del proceso de \emph{self-testing}.}
+	\label{fig:esqSelfTesting}
+\end{figure}
 
 \subsection{Funciones del producto}
+\label{sub:funcionesProducto}
 
 El software aquí especificado brindará las siguientes funcionalidades:
 
@@ -141,91 +181,104 @@ El software aquí especificado brindará las siguientes funcionalidades:
 \end{itemize}
 
 \subsection{Características de los usuarios}
+\label{sub:usuarios}
 
 Los usuarios finales de este producto son ingenieros de desarrollo del INVAP.
 
 \subsection{Restricciones}
+\label{sub:restricciones}
 
 Las restricciones del desarrollo del sistema son las siguientes:
 
 \begin{itemize}
-	\item Utilización de repositorio con control de versiones Gitlab.
-	\item Documentación del código con Doxygen.
-	\item Utilización exclusiva del lenguaje de programación Python.
+	\item Utilización de repositorio con control de versiones \emph{Gitlab}.
+	\item Documentación del código con \emph{Doxygen}.
+	\item Utilización exclusiva del lenguaje de programación \emph{Python 3}.
 \end{itemize}
 
 \subsection{Suposiciones y dependencias}
+\label{sub:suposiciones}
 
-La suposición principal es que se tendrá acceso irrestricto al microcontrolador SAMV71.
+La suposición principal es que se tendrá acceso irrestricto al microcontrolador \emph{SAMV71} antes del día 01/11/2021.
 
 \subsection{Requisitos futuros}
+\label{sub:futuro}
 
 N/A
 
-
+\newpage
 \section{3. Requisitos específicos}
 \label{sec:requisitos}
 
 
 \subsection{Interfaces externas}
+\label{sub:interfaces}
 
 \begin{itemize}
-	\item El software deberá comunicarse por USB con el debugger [SISE-RS-0001-REQ0001].
-	\item El software deberá comunicarse por protocolo SERIAL con el microcontrolador SAMV71 [SISE-RS-0001-REQ0002].
+	\item \req{001} se comunicará de forma bidireccional con \emph{OpenOCD} a través de \emph{TCP} o \emph{Telnet}.
+	\item \req{002} se deberá recibir y capturar la información proveniente por puerto \emph{Serial} del microcontrolador \emph{SAMV71}.
 \end{itemize}
 
 \subsection{Funciones}
+\label{sub:funciones}
 
 \begin{enumerate}
-	\item Inyección de soft-errors:
+	\item Inyección de \emph{soft-errors}:
 	\begin{itemize}
-		\item Deberá realizar escrituras de 32 bits en la memoria ram [SISE-RS-0001-REQ0003].
-		\item Deberá realizar bit-flips en la memoria ram [SISE-RS-0001-REQ0004].
-		\item Deberá realizar escrituras en los registros internos respetando su tamaño en bits [SISE-RS-0001-REQ0005].
-		\item Deberá realizar bit-flips en los registros internos respetando su tamaño en bits [SISE-RS-0001-REQ0006].
+		\item \req{003} sobrescribirá los valores en memoria \emph{RAM}.
+		\item \req{004} invertirá el valor de un bit en la memoria \emph{RAM}.
+		\item \req{005} sobrescribirá valores en los registros internos.
+		\item \req{006} invertirá el valor de un bit dentro de un registro interno.
+		\item \req{007} reportará el estado del microcontrolador antes de realizar una inyección de \emph{soft-errors}.
+		\item \req{008} interpretará una descripción de ensayo escrita en \emph{Python 3} y ejecutará las inyecciones según le indique.
 	\end{itemize}
-	\item Recepción de reportes:
+	\item \emph{Firmware} de \emph{self-testing}:
 	\begin{itemize}
-		\item Deberá recibir los reportes de estado [SISE-RS-0001-REQ0007].
-		\item Deberá relacionar los reportes de estado con la última inyección de soft-error introducida [SISE-RS-0001-REQ0008].
+		\item \req{009} detectará el funcionamiento anormal de los periféricos del microcontrolador \emph{SAMV71}.
+		\item \req{010} reportará periódicamente el estado de los periféricos utilizando el protocolo \emph{Serial}.
+		\item \req{011} los reportes tendrán un formato \emph{CSV} y un tamaño menor a 10 kB.
 	\end{itemize}
 	\item Almacenamiento de reportes:
 	\begin{itemize}
-		\item Deberá indicar el tiempo transcurrido desde la inyección de soft-error que la precede [SISE-RS-0001-REQ0009].
-		\item Deberá generar histogramas para su análisis estadístico [SISE-RS-0001-REQ0010].
+		\item \req{012} se incluirá un \emph{timestamp} de recepción del reporte.
+		\item \req{013} se generarán histogramas para su análisis estadístico.
 	\end{itemize}
 \end{enumerate}
 
 \subsection{Requisitos de rendimiento}
+\label{sub:rendimiento}
 
-El inyector de soft-errors deberá realizar la inserción solicitada en un tiempo menor a 10 ms [SISE-RS-0001-REQ0011].
+\req{014} el inyector de soft-errors deberá realizar la inserción solicitada en un tiempo menor a 10 ms.
 
 \subsection{Restricciones de diseño}
+\label{sub:restriccionesDiseño}
 
-Se utilizará el microcontrolador SAMV71 como dispositivo principal [SISE-RS-0001-REQ0012].
+\req{015} se utilizará el microcontrolador \emph{SAMV71} como dispositivo principal.
 
 \subsection{Atributos del sistema}
+\label{sub:atributos}
 
 \begin{enumerate}
 	\item Mantenibilidad:
 	\begin{itemize}
-		\item El software deberá permitir su modificación para trabajar con otras arquitecturas [SISE-RS-0001-REQ0013].
+		\item \req{016} el software deberá permitir su modificación para trabajar con otras arquitecturas.
 	\end{itemize}
 \end{enumerate}
 
 \subsection{Otros requisitos}
+\label{sub:otros}
 
 N/A.
 
 \section{4. Apéndices}
 \label{sec:apendices}
 
-%\subsection{Formatos de entrada/salida}
+%\subsection{Formatos de entrada/salida}¸
 
 %\subsection{Resultados de análisis de costes}
 
 \subsection{Restricciones acerca del lenguaje de programación}
 
-El lenguaje de programación será Python 3 y el código deberá ser documentado según las recomendaciones del manual de usuario de Doxygen.
+El lenguaje de programación será \emph{Python 3} y el código deberá ser documentado según las recomendaciones del manual de usuario de \emph{Doxygen}.
 
 \end{document}
