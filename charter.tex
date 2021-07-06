@@ -287,36 +287,66 @@ El lenguaje de programación será \emph{Python 3} y el código deberá ser docu
 \subsection{Casos de uso}
 
 \begin{table}[h!]
+	\label{tab:uso1}
+	\caption{Caso de uso número 1}
 	\begin{tabularx}{\textwidth}{|ll|X|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
-		\multicolumn{2}{|c|}{\cellcolor[HTML]{C0C0C0}\textbf{Título}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Descripción}}      \\ \hline
-		\multicolumn{2}{|l|}{1. Nombre}                               & Un nombre                                                              \\ \hline
-		& 1.1 Breve descripción                   & Una descripción                                                        \\ \hline
-		& 1.2 Actor principal                     & Un actor                                                               \\ \hline
-		& 1.3 Disparadores                        & Un disparador                                                          \\ \hline
-		\multicolumn{2}{|l|}{2. Flujo de eventos} &                                                                        \\ \hline
-		& 2.1 Flujo básico                        & \begin{tabular}[c]{@{}l@{}}1. Algo\\ 2. Algo\\ 3. Algo...\end{tabular} \\ \hline
-		& 2.2 Fuljo alternativo                   & \begin{tabular}[c]{@{}l@{}}1. Algo\\ 2. Algo\\ 3. Algo...\end{tabular} \\ \hline
-		\multicolumn{2}{|l|}{3. Pre-condiciones}  & Algo                                                                   \\ \hline
-		\multicolumn{2}{|l|}{4. Pos-condiciones}  & Algo                                                                   \\ \hline
+		\multicolumn{2}{|c|}{\cellcolor[HTML]{C0C0C0}\textbf{Título}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Descripción}} \\ \hline
+		\multicolumn{2}{|l|}{1. Nombre}                               & Simular misión Sabiamar                                           \\ \hline
+		& 1.1 Breve descripción                   & Se simulan los 5 años de \emph{soft-errors} en un lapso de 24 horas                   \\ \hline
+		& 1.2 Actor principal                     & Usuario del sistema                                                                   \\ \hline
+		& 1.3 Disparadores                        & Comando de ejecución                                                                  \\ \hline
+		\multicolumn{2}{|l|}{2. Flujo de eventos} &                                                                                       \\ \hline
+		& 2.1 Flujo básico                        & \begin{tabular}[c]{@{}l@{}}
+			                                                       1. El software interpreta la descripción del ensayo                    \\ 
+			                                                       2. El software determina la tasa de falla del ensayo                   \\ 
+			                                                       3. El software determina la probabilidad de falla de cada registro     \\
+			                                                       4. El software determina la probabilidad de falla en memoria           \\
+			                                                       5. El software realiza inyecciones según los parámetros calculados     \\
+			                                                       6. El software persiste todas las inyecciones realizadas               \\
+			                                                       7. El software entrega un informe final                                \\
+			                                                       8. El software retorna un código de tarea finalizada
+		                                            \end{tabular} \\ \hline
+		& 2.2 Fuljo alternativo                   & \begin{tabular}[c]{@{}l@{}}
+			                                                       1. El software detecta una anormalidad en el ensayo                    \\ 
+			                                                       2. El software aborta el ensayo                                        \\ 
+			                                                       3. El software genera un informe de fallo                              \\
+			                                                       4. El software retorna un código de error
+		                                            \end{tabular} \\ \hline
+		\multicolumn{2}{|l|}{3. Pre-condiciones}  & \begin{tabular}[c]{@{}l@{}}
+                                                                   1. \emph{OpenOCD} corriendo                                            \\ 
+                                                                   2. \emph{OpenOCD} conectado al microcontrolador                        \\ 
+                                                                   3. \emph{OpenOCD} con puerto disponible
+													\end{tabular}\\ \hline
+		\multicolumn{2}{|l|}{4. Pos-condiciones}  & \emph{OpenOCD} con puerto liberado                                                    \\ \hline
 	\end{tabularx}
 \end{table}
 
 \begin{table}[h!]
+	\label{tab:uso2}
+	\caption{Caso de uso número 2}
 	\begin{tabularx}{\textwidth}{|ll|X|}
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
-		\multicolumn{2}{|c|}{\cellcolor[HTML]{C0C0C0}\textbf{Título}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Descripción}}      \\ \hline
-		\multicolumn{2}{|l|}{1. Nombre}                               & Un nombre                                                              \\ \hline
-		& 1.1 Breve descripción                   & Una descripción                                                        \\ \hline
-		& 1.2 Actor principal                     & Un actor                                                               \\ \hline
-		& 1.3 Disparadores                        & Un disparador                                                          \\ \hline
-		\multicolumn{2}{|l|}{2. Flujo de eventos} &                                                                        \\ \hline
-		& 2.1 Flujo básico                        & \begin{tabular}[c]{@{}l@{}}1. Algo\\ 2. Algo\\ 3. Algo...\end{tabular} \\ \hline
-		& 2.2 Fuljo alternativo                   & \begin{tabular}[c]{@{}l@{}}1. Algo\\ 2. Algo\\ 3. Algo...\end{tabular} \\ \hline
-		\multicolumn{2}{|l|}{3. Pre-condiciones}  & Algo                                                                   \\ \hline
-		\multicolumn{2}{|l|}{4. Pos-condiciones}  & Algo                                                                   \\ \hline
+		\multicolumn{2}{|c|}{\cellcolor[HTML]{C0C0C0}\textbf{Título}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Descripción}}  \\ \hline
+		\multicolumn{2}{|l|}{1. Nombre}                               & Validación de hardware                                             \\ \hline
+		& 1.1 Breve descripción                   & Se prueba la capacidad de los periféricos del microcontrolador para reponerse de fallas\\ \hline
+		& 1.2 Actor principal                     & Banco de pruebas INVAP                                                                 \\ \hline
+		& 1.3 Disparadores                        & Anormalidad en periférico                                                              \\ \hline
+		\multicolumn{2}{|l|}{2. Flujo de eventos} &                                                                                        \\ \hline
+		& 2.1 Flujo básico                        & \begin{tabular}[c]{@{}l@{}}
+			                                                       1. El firmware detecta una anormalidad en un periférico                 \\ 
+			                                                       2. El firmware genera un informe en formato \emph{CSV}                  \\ 
+			                                                       3. El firmware envía un reporte por \emph{UART}                         \\
+		                                            \end{tabular} \\ \hline
+		& 2.2 Fuljo alternativo                   & \begin{tabular}[c]{@{}l@{}}
+			                                                       1. El microcontrolador se reinicia                                      \\ 
+			                                                       2. El firmware genera un informe en formato \emph{CSV}                  \\ 
+			                                                       3. El firmware envía un reporte por \emph{UART}
+		                                            \end{tabular}                                                                          \\ \hline
+		\multicolumn{2}{|l|}{3. Pre-condiciones}  &                                                                                        \\ \hline
+		\multicolumn{2}{|l|}{4. Pos-condiciones}  &                                                                                        \\ \hline
 	\end{tabularx}
 \end{table}
 
