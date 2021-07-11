@@ -131,7 +131,7 @@
 
 \lhead{\includegraphics[width=4cm]{./Figuras/logoFIUBA.png}}
 \chead{}
-\rhead{\normalsize \textrm{Especificación de requerimientos de software \\Sistema de inyección de soft-errors (SEU, SEFI)\\ \authorname}}
+\rhead{\normalsize \textrm{Especificación de requerimientos de software \\Evaluador de microcontroladores para misiones espaciales\\ \authorname}}
 \lfoot{ }
 \cfoot{\normalsize Página \thepage \hspace{1px} de \pageref{LastPage}}
 \rfoot{}
@@ -187,11 +187,9 @@
 	\begin{bfseries}
 		\Huge{ESPECIFICACIÓN DE REQUERIMIENTOS DE SOFTWARE}\\
 		\vspace{1.9cm}
-		Sistema de Inyección de Soft-errors (SEU,
-		SEFI) en un microcontrolador SAMV71
-		\\
+		Evaluador de microcontroladores para misiones espaciales\\
 		\vspace{1.9cm}
-		\LARGE{Versión B}\\
+		\LARGE{Versión D}\\
 		\vspace{1.9cm}
 		Escrito por Gonzalo Nahuel Vaca\\
 		\vspace{1.9cm}

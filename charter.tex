@@ -14,7 +14,7 @@ codirector, % Uncomment to add a codirector to the title page
 %\posgrado{Maestría en Internet de las cosas}
 
 % Tu nombre, se puede usar el cualquier lugar del documento con el comando \authorname
-\autor{SISE-RS versión B} 
+\autor{SISE-RS versión D} 
 
 % El nombre del director y co-director, se puede usar el cualquier lugar del documento con el comando \supname y \cosupname y \pertesupname y \pertecosupname
 \director{Nombre del Director}
@@ -71,6 +71,11 @@ B & Se agrega encabezado en la plantilla del documento. \newline
 	Modificación de la tabla de registro de cambios. \newline
 	Nuevo formato de enumeración de requisitos.\newline
 	Se amplia la sección \ref{sub:perspectiva}. & 03/07/2021 \\ \hline
+C & Se agregan casos de usos en el anexo & 06/07/2021 \\ \hline
+D & Se conforma con las políticas de confidencialidad de INVAP. \newline
+    Se modifica el título del proyecto. \newline
+    Se revisan todos los requerimientos para que sean más específicos. \newline
+    Se modifican los casos de uso según los nuevos requerimientos. & 11/07/2021 \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -82,24 +87,23 @@ B & Se agrega encabezado en la plantilla del documento. \newline
 \subsection{Propósito}
 \label{sub:proposito}
 
-Este documento representa una especificación de requerimientos de software para un sistema de inyección de \emph{soft-errors} y un \emph{firmware} de \emph{self-testing}.
-Está dirigido a las personas que se ocupen de las siguientes tareas:
-\begin{itemize}
-	\item análisis
-	\item diseño
-	\item implementación
-	\item pruebas
-\end{itemize}
+Este documento representa una especificación de requerimientos de software para un \emph{Evaluador de microcontroladores para misiones espaciales}.
+El documento está dirigido a las personas que trabajen en la esfera de: análisis, diseño, implementación o pruebas.
 
 \subsection{Ámbito del sistema}
 \label{sub:ambito}
 
-El nombre del sistema será SISE y permitirá inyectar errores en todos los registros accesibles del microcontrolador \emph{SAMV71}.
-Su función será evaluar las técnicas de mitigación de \emph{soft-errors} en funciones a ser utilizadas en la misión \emph{Sabiamar}.
-Adicionalmente, se proveerá un \emph{firmware} de \emph{self-testing} para determinar los presupuestos de \emph{hardware}.
+El nombre del sistema será SISE y permitirá evaluar si el microcontrolador deseado puede tener un uso espacial.
+Además, facilitará la valoración de las técnicas de mitigación de errores.
+El proyecto incluirá dos módulos que funcionarán en ámbitos distintos.
+Ellos serán:
 
-El beneficio que se espera obtener es utilizar componentes que no fueron sometidos a un proceso de calificación (alternativos).
-Además, se espera simular los 5 años de misión en un tiempo acelerado.
+\begin{itemize}
+	\item Inyector por consola de comando (CCI)
+	\item Proceso de dispositivo bajo prueba (DUT)
+\end{itemize}
+
+El ámbito de CCI será el ordenador del usuario; mientras que el proceso de DUT funcionará en el microcontrolador.
 
 \subsection{Definiciones, acrónimos y abreviaturas}
 \label{sub:definiciones}
@@ -107,16 +111,23 @@ Además, se espera simular los 5 años de misión en un tiempo acelerado.
 \begin{enumerate}
 	\item Definiciones:
 		\begin{itemize}
-			\item Sabiamar: constelación de dos satélites argentino-brasileños para la información del mar.
-			\item soft-errors: modificación no destructiva del valor de un registro o memoria.
+			\item Single event effect: efecto de una partícula enérgicamente cargada sobre un microcontrolador.
+			\item Single event funtional interrupt: interrupción causada por el impacto de una sola partícula que conduce a una no funcionalidad temporal.
+			\item Single event upset: pulso transitorio en la lógica o circuitos de apoyo. Son \emph{soft-errors} no destructivos.
+			\item Soft-error: tipo de error en donde una señal o dato es incorrecto.
 		\end{itemize}
 	\item Acrónimos:
 		\begin{itemize}
-			\item CSV: comma separated value.
-			\item IEEE: Institute of Electrical and Electronics Engineers.
-			\item JTAG: Join Test Action Group.
-			\item RAM: random access memory.
-			\item TCP: transfer control protocol.
+			\item API: interfaz de programación de aplicaciones.
+			\item DUT: dispositivo bajo prueba (microcontrolador).
+			\item FOM: figura de mérito.
+			\item IEEE: Instituto de Ingenieros Eléctricos y Electrónicos.
+			\item OCD: on-chip debugger.
+			\item SEE: single event effect.
+			\item SEFI: single event functional interrupt.
+			\item SEU: single event upset.
+			\item TBD: a ser determinado.
+			\item UART: universal asynchronous receiver-trasmitter.
 		\end{itemize}
 	\item Abreviaturas:
 		\begin{itemize}
@@ -133,37 +144,47 @@ INVAP - Propuesta de tesis: sistema de inyección de soft-errors.
 
 Este documento se realizó según lo especificado en el estándar IEEE Std. 830-1998.
 
-\newpage
 \section{2. Descripción general}
 \label{seb:descripcion}
 
 \subsection{Perspectiva del producto}
 \label{sub:perspectiva}
 
-El software aquí especificado es independiente de otros sistemas y no tiene relación con otros productos.
+El proyecto aquí especificado es independiente de otros sistemas y no tiene relación con otros productos.
+Como se especificó en subsección \ref{sub:proposito}, se realizarán los siguientes módulos: CCI y Proceso de DUT.
 
-El principio de inyección de \emph{soft-erros} se basará en conectarse al microcontrolador a través de su interfaz de \emph{debug}; se procederá a suspender la ejecución del \emph{firmware} y luego se realizarán las modificaciones necesarias.
+El módulo CCI tendrá la función de generar SEFIs que introduzcan SEUs.
+Los SEFI-SEU serán inyectados de forma electrónica; esto simulará los efectos de una partícula cargada que impacta en el DUT.
+Como se explicó en la subsección \ref{sub:ambito}, el módulo residirá en el ordenador del usuario.
+La interacción se realizará a través de una \emph{consola de línea de comandos}.
+Finalmente, se podrá configurar el ensayo a realizar.
 
-En la figura \ref{fig:esqInyeccion} se puede observar un esquema general del proceso de inyección de \emph{soft-errors}.
+En la figura \ref{fig:CCIbloques} se puede observar el diagrama en bloques del módulo CCI.
+La consola de usuario será la interfaz que el ingeniero utilice para usar el sistema.
+El controlador de ensayos procesará los datos ingresados por el usuario, coordinará los SEFI-SEU y observará los reportes del DUT.
+El servidor OCD se encargará de realizar lecturas de registros y las inyecciones de SEFI-SEU.
+El OCD API será la interfaz entre el Controlador de ensayos y el Servidor OCD; utilizará un protocolo TBD.
+La Interfaz serie capturará los informes del DUT.
+Finalmente, la Persistencia de datos almacenará toda la información generada durante la ejecución del ensayo.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{./Figuras/inyeccion.png}
-	\caption{Esquema general de inyección de \emph{soft-errors}.}
-	\label{fig:esqInyeccion}
+	\includegraphics[width=\textwidth]{./Figuras/CCIbloques.png}
+	\caption{Diagrama en bloques del módulo CCI.}
+	\label{fig:CCIbloques}
 \end{figure}
 
-El inyector de \emph{soft-errors} deberá modificar obtener la información de los registros del microcontrolador SAMV71 antes de realizar una modificación.
-Finalmente, debe persistir la operación realizada junto a los datos previos a la inyección.
+En la figura \ref{fig:DUTbloques} se puede observar el diagrama en bloques del módulo \emph{Proceso de DUT}.
+El firmware deberá recorrer todos los periféricos del DUT.
+En cada periférico se generará una operación de autovalidación.
+Finalizada la verificación de todos los periféricos, el firmware enviará un reporte a través de la UART.
+Finalmente, el bloque de debugger será el punto de ingreso para las SEFI-SEU.
 
-Adicionalmente, se entregará un \emph{firmware} de \emph{self-testing} que generará reportes sobre el funcionamiento de los periféricos del microcontrolador \emph{SAMV71}.
-En la figura \ref{fig:esqSelfTesting} se puede ver un esquema general del proceso de \emph{self-testing}.
-
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{./Figuras/selfTesting.png}
-	\caption{Esquema general del proceso de \emph{self-testing}.}
-	\label{fig:esqSelfTesting}
+	\includegraphics[width=0.7\textwidth]{./Figuras/DUTbloques.png}
+	\caption{Diagrama en bloques del módulo Proceso de DUT.}
+	\label{fig:DUTbloques}
 \end{figure}
 
 \subsection{Funciones del producto}
@@ -171,19 +192,31 @@ En la figura \ref{fig:esqSelfTesting} se puede ver un esquema general del proces
 
 El software aquí especificado brindará las siguientes funcionalidades:
 
-\begin{itemize}
-	\item Inyección de errores en todos los registros accesibles del microcontrolador SAMV71.
-	\item Monitoreo del estado de funcionamiento del microcontrolador SAMV71.
-	\item Persistencia de los soft-errors inyectados.
-	\item Persistencia de los informes de estado de funcionamiento.
-	\item Permitir escribir ensayos de evaluación.
-	\item Presentación de resultados en histogramas que permitan un análisis estadístico.
-\end{itemize}
+\begin{enumerate}
+	\item Referentes al CCI:
+		\begin{enumerate}
+			\item Generará de una interfaz de usuario.
+			\item Permitirá configurar el ensayo a realizar.
+			\item Activará el Proceso de DUT.
+			\item Observará la salida del DUT.
+			\item Inyectará SEFI-SEU en el DUT.
+			\item Persistirá las operaciones, entradas y salidas.
+			\item Generará informes del ensayo realizado.
+		\end{enumerate}
+	\item Referentes al Proceso de DUT:
+		\begin{enumerate}
+			\item Verificará el estado de los periféricos del DUT.
+			\item Detectará si el DUT perdió su secuencia.
+			\item Generará reportes de estado de periféricos y secuencia.
+			\item Permitirá que CCI configure el alcance de la secuencia.
+			\item Permitirá que CCI maneje el flujo de su secuencia.
+		\end{enumerate}
+\end{enumerate}
 
 \subsection{Características de los usuarios}
 \label{sub:usuarios}
 
-Los usuarios finales de este producto son ingenieros de desarrollo del INVAP.
+Los usuarios finales de este producto son ingenieros de desarrollo de INVAP.
 
 \subsection{Restricciones}
 \label{sub:restricciones}
@@ -199,14 +232,13 @@ Las restricciones del desarrollo del sistema son las siguientes:
 \subsection{Suposiciones y dependencias}
 \label{sub:suposiciones}
 
-La suposición principal es que se tendrá acceso irrestricto al microcontrolador \emph{SAMV71} antes del día 01/11/2021.
+La suposición principal es que se tendrá acceso irrestricto al DUT seleccionado antes del día 01/01/2022.
 
 \subsection{Requisitos futuros}
 \label{sub:futuro}
 
 N/A
 
-\newpage
 \section{3. Requisitos específicos}
 \label{sec:requisitos}
 
@@ -214,49 +246,107 @@ N/A
 \subsection{Interfaces externas}
 \label{sub:interfaces}
 
-\begin{itemize}
-	\item \req{001} se comunicará de forma bidireccional con \emph{OpenOCD} a través de \emph{TCP} o \emph{Telnet}.
-	\item \req{002} se deberá recibir y capturar la información proveniente por puerto \emph{Serial} del microcontrolador \emph{SAMV71}.
-\end{itemize}
+\begin{enumerate}
+	\item CCI:
+		\begin{enumerate}
+			\item Con usuario:
+				\begin{itemize}
+					\item \req{001} deberá representar todos los caracteres de ISO Std. 10646
+					\item \req{002} conformará con las secuencias de escape de ISO Std. 6429
+					\item \req{003} usará el castellano como idioma conforme a la Real Academia Española
+					\item \req{004} se aceptarán barbarismos que conformen la interfaz con los sistemas UNIX
+					\item \req{005} no deberá producir destellos ni cambios bruscos en su intensidad lumínica
+					\item \req{006} no deberá producir sonidos
+					\item Títulos:
+						\begin{itemize}
+							\item \req{007} los títulos deberán ser cortos
+							\item \req{008} los títulos deberán estar correctamente capitalizados
+							\item \req{009} los títulos deberán ser únicos
+						\end{itemize}
+					\item Comandos:
+						\begin{itemize}
+							\item \req{010} el sistema se iniciará con el comando ``python sise.py''
+							\item \req{011} el sistema imprimirá en pantalla un manual de ayuda con el comando ``python sise.py --help''
+							\item \req{012} se podrá exportar la configuración del último ensayo realizado con el comando ``python sise.py --export=Ruta''
+							\item \req{013} se podrá importar la configuración de un ensayo a realizar con el comando ``python sise.py --import=Ruta/Archivo''
+						\end{itemize}
+					\item Menú:
+						\begin{itemize}
+							\item \req{014} el sistema de menú tendrá una arquitectura de árbol
+							\item \req{015} la navegación entre los nodos del menú será consistente en todo el árbol
+							\item \req{016} se indicará en todo momento el nodo actual y todos los nodos que lleven a la raíz del árbol
+						\end{itemize}
+				\end{itemize}
+			\item Con DUT:
+				\begin{itemize}
+					\item \req{017} la comunicación con UART será en 9600 baudios, 8 bits de datos, 1 bit de parada y 0 bits de paridad
+					\item \req{018} la comunicación con el debugger conformará con la configuración recomendada por el fabricante
+				\end{itemize}
+		\end{enumerate}
+	\item Proceso de DUT:
+		\begin{itemize}
+			\item \req{019} la comunicación con el debugger estará disponible durante todo el flujo de la secuencia
+			\item \req{020} durante el flujo de la secuencia, la UART solo podrá transmitir información
+			\item \req{021} en el periodo entre secuencias, la UART podrá recibir y transmitir información
+		\end{itemize}
+\end{enumerate}
 
 \subsection{Funciones}
 \label{sub:funciones}
 
 \begin{enumerate}
-	\item Inyección de \emph{soft-errors}:
-	\begin{itemize}
-		\item \req{003} sobrescribirá los valores en memoria \emph{RAM}.
-		\item \req{004} invertirá el valor de un bit en la memoria \emph{RAM}.
-		\item \req{005} sobrescribirá valores en los registros internos.
-		\item \req{006} invertirá el valor de un bit dentro de un registro interno.
-		\item \req{007} reportará el estado del microcontrolador antes de realizar una inyección de \emph{soft-errors}.
-		\item \req{008} interpretará una descripción de ensayo escrita en \emph{Python 3} y ejecutará las inyecciones según le indique.
-		\item \req{009} aceptará descripciones de ensayo que impongan una tasa de error para cada registro interno.
-		\item \req{010} procesará descripciones de ensayo que impongan una tasa de error para una posición o rango de memoria \emph{RAM}.
-		\item \req{011} las descripciones de ensayo podrán especificar probabilidades de error con una resolución de 1 bit.
-	\end{itemize}
-	\item \emph{Firmware} de \emph{self-testing}:
-	\begin{itemize}
-		\item \req{012} detectará el funcionamiento anormal de los periféricos del microcontrolador \emph{SAMV71}.
-		\item \req{013} reportará periódicamente el estado de los periféricos utilizando el protocolo \emph{Serial}.
-		\item \req{014} los reportes tendrán un formato \emph{CSV} y un tamaño menor a 5 kB.
-	\end{itemize}
-	\item Almacenamiento de reportes:
-	\begin{itemize}
-		\item \req{015} se incluirá un \emph{timestamp} de recepción del reporte.
-		\item \req{016} se generarán histogramas para su análisis estadístico.
-	\end{itemize}
+	\item CCI:
+		\begin{itemize}
+			\item \req{022} detendrá la secuencia de duración $ T $ del DUT en un momento $ t $ definido como $ t \, \epsilon \, \rm I\!R^+ \wedge t \, < T$
+			\item \req{023} con la secuencia del DUT detenida, inyectará un SEFI-SEU que invertirá el valor de un bit de un registro interno
+			\item \req{024} La descripción del ensayo definirá el momento $ t $ de inyección de SEFI-SEU durante la secuencia de duración $ T $ y será un múltiplo de $\Delta t$ definido como $ \Delta t=T/N \, \forall \, N \epsilon \, \rm I\!N $
+			\item \req{025} La descripción del ensayo definirá la cantidad $ M $ de registros involucrados en la prueba
+			\item \req{026} La cantidad de secuencias $ L $ a ejecutar quedará definida como \\$ L = N \times M $
+			\item \req{027} Se ejecutará una secuencia de control sin inyección de SEFI-SEU antes de correr las $ L $ secuencias
+			\item \req{028} Por cada ejecución de una secuencia se obtendrá un valor de salida $ S $ del DUT
+			\item \req{030} Cada valor de salida $ S $ será persistido para su análisis
+			\item \req{031} Cada valor de salida $ S $ quedará asociado a su correspondiente secuencia con su inyección de SEFI-SEU y momento $ t $
+			\item \req{032} Se generará un archivo de resultados llamado\\ ``resultados-AAAAMMDDHHmm.res'', siendo AAAA el año del ensayo, MM el mes, DD el día, HH la hora y mm los minutos
+			\item \req{033} El archivo de resultados acumulará los SEFI y SEU de cada registro del DUT
+			\item \req{034} El archivo de resultados acumulará los SEU de cada periférico del DUT
+			\item \req{035} El archivo de resultados indicará el FOM del registro definido como:
+			$ FOM_{REG} = (1 - \frac{SEU}{SEFI}) $
+			\item \req{036} El archivo de resultados indicará el FOM del DUT definido como:
+			$ FOM_{DUT} = \frac{1}{M} \times \sum_{i = 1}^{i = M}FOM_{i} $ siendo $ i $ el número que representa un registro del DUT
+			\item \req{037} Se generará un archivo de histogramas llamado \\ ``histogramas-AAAAMMDDmm.his'' siendo AAAA el año del ensayo, MM el mes, DD el día, HH la hora y mm los minutos
+			\item \req{038} El archivo de histogramas tendrá una tabla que indique la frecuencia de fallos como función de los SEFIs por registro del DUT
+			\item \req{039} El archivo de histogramas tendrá una tabla que indique la frecuencia de fallos como función de los SEFIs por periférico del DUT
+		\end{itemize}
+	\item Proceso de DUT:
+		\begin{itemize}
+			\item \req{040} deberá correr una secuencia de autoevaluación cuya ejecución durará un tiempo $ T $
+			\item \req{041} deberá producir una salida $ S $ que podrá ser un estado o una secuencia de estados
+			\item \req{042} este proceso podrá tener una entrada $ E $
+			\item \req{043} deberá evaluar el estado de los periféricos del DUT
+			\item \req{044} tendrá una función de evaluación para cada uno de los periféricos del DUT
+			\item \req{045} se podrá definir por la entrada $ E $ si se desea excluir uno o más periféricos en la secuencia
+			\item \req{046} manejará una interrupción del flujo normal de la secuencia y generará una salida $ S $ indicando la excepción, por ejemplo: interrupción por \emph{watchdog}
+			\item \req{047} la salida $ S $ utilizará la UART del DUT para ser transmitida
+			\item \req{048} la entrada $ E $ utilizará la UART del DUT para ser recibida
+		\end{itemize}
 \end{enumerate}
 
 \subsection{Requisitos de rendimiento}
 \label{sub:rendimiento}
 
-\req{017} el inyector de soft-errors deberá realizar la inserción solicitada en un tiempo menor a 10 ms.
+\begin{itemize}
+	\item \req{049} la inyección de SEFI-SEU podrá tener un desvío en su momento $ t $ de 10 ms
+	\item \req{050} el desvío tolerado de $ t $ deberá representar como máximo el 1\% de la duración $ T $ de la secuencia del DUT
+	\item \req{051} aceptará un $ \Delta t $ que como mínimo represente el 5\% de la duración $ T $ de la secuencia del DUT
+\end{itemize}
 
 \subsection{Restricciones de diseño}
 \label{sub:restriccionesDiseño}
 
-\req{018} se utilizará el microcontrolador \emph{SAMV71} como dispositivo principal.
+\begin{itemize}
+	\item \req{052} se utilizará como dispositivo principal el microcontrolador seleccionado por INVAP
+	\item \req{053} se utilizará un sistema operativo de tiempo real para diseñar el Proceso de DUT
+\end{itemize}
 
 \subsection{Atributos del sistema}
 \label{sub:atributos}
@@ -264,7 +354,7 @@ N/A
 \begin{enumerate}
 	\item Mantenibilidad:
 	\begin{itemize}
-		\item \req{019} el software deberá permitir su modificación para trabajar con otras arquitecturas.
+		\item \req{053} el Proceso de DUT se desarrollará con un modelo de capas
 	\end{itemize}
 \end{enumerate}
 
@@ -293,14 +383,14 @@ El lenguaje de programación será \emph{Python 3} y el código deberá ser docu
 		\hline
 		\rowcolor[HTML]{C0C0C0} 
 		\multicolumn{2}{|c|}{\cellcolor[HTML]{C0C0C0}\textbf{Título}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Descripción}} \\ \hline
-		\multicolumn{2}{|l|}{1. Nombre}                               & Simular misión Sabiamar                                           \\ \hline
-		& 1.1 Breve descripción                   & Se simulan los 5 años de \emph{soft-errors} en un lapso de 24 horas                   \\ \hline
-		& 1.2 Actor principal                     & Usuario del sistema                                                                   \\ \hline
+		\multicolumn{2}{|l|}{1. Nombre}                               & Simulación de una misión espacial                                 \\ \hline
+		& 1.1 Breve descripción                   & Se simulan los años de SEFI-SEU en un lapso de 24 horas                               \\ \hline
+		& 1.2 Actor principal                     & Ingeniero de INVAP                                                                    \\ \hline
 		& 1.3 Disparadores                        & Comando de ejecución                                                                  \\ \hline
 		\multicolumn{2}{|l|}{2. Flujo de eventos} &                                                                                       \\ \hline
 		& 2.1 Flujo básico                        & \begin{tabular}[c]{@{}l@{}}
 			                                                       1. El software interpreta la descripción del ensayo                    \\ 
-			                                                       2. El software determina la tasa de falla del ensayo                   \\ 
+			                                                       2. El software determina la tasa de fallos del ensayo                   \\ 
 			                                                       3. El software determina la probabilidad de falla de cada registro     \\
 			                                                       4. El software determina la probabilidad de falla en memoria           \\
 			                                                       5. El software realiza inyecciones según los parámetros calculados     \\
@@ -315,11 +405,11 @@ El lenguaje de programación será \emph{Python 3} y el código deberá ser docu
 			                                                       4. El software retorna un código de error
 		                                            \end{tabular} \\ \hline
 		\multicolumn{2}{|l|}{3. Pre-condiciones}  & \begin{tabular}[c]{@{}l@{}}
-                                                                   1. \emph{OpenOCD} corriendo                                            \\ 
-                                                                   2. \emph{OpenOCD} conectado al microcontrolador                        \\ 
-                                                                   3. \emph{OpenOCD} con puerto disponible
+                                                                   1. Servidor OCD corriendo                                            \\ 
+                                                                   2. Servidor OCD conectado al microcontrolador                        \\ 
+                                                                   3. Servidor OCD con puerto disponible
 													\end{tabular}\\ \hline
-		\multicolumn{2}{|l|}{4. Pos-condiciones}  & \emph{OpenOCD} con puerto liberado                                                    \\ \hline
+		\multicolumn{2}{|l|}{4. Pos-condiciones}  & Servidor OCD liberado                                                    \\ \hline
 	\end{tabularx}
 \end{table}
 
@@ -331,19 +421,19 @@ El lenguaje de programación será \emph{Python 3} y el código deberá ser docu
 		\rowcolor[HTML]{C0C0C0} 
 		\multicolumn{2}{|c|}{\cellcolor[HTML]{C0C0C0}\textbf{Título}} & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}\textbf{Descripción}}  \\ \hline
 		\multicolumn{2}{|l|}{1. Nombre}                               & Validación de hardware                                             \\ \hline
-		& 1.1 Breve descripción                   & Se prueba la capacidad de los periféricos del microcontrolador para reponerse de fallas\\ \hline
-		& 1.2 Actor principal                     & Banco de pruebas INVAP                                                                 \\ \hline
-		& 1.3 Disparadores                        & Anormalidad en periférico                                                              \\ \hline
+		& 1.1 Breve descripción                   & Se obtiene la figura de mérito de un microcontrolador                                  \\ \hline
+		& 1.2 Actor principal                     & Ingeniero de INVAP                                                                     \\ \hline
+		& 1.3 Disparadores                        & Comando de ejecución                                                                   \\ \hline
 		\multicolumn{2}{|l|}{2. Flujo de eventos} &                                                                                        \\ \hline
 		& 2.1 Flujo básico                        & \begin{tabular}[c]{@{}l@{}}
-			                                                       1. El firmware detecta una anormalidad en un periférico                 \\ 
-			                                                       2. El firmware genera un informe en formato \emph{CSV}                  \\ 
-			                                                       3. El firmware envía un reporte por \emph{UART}                         \\
+			                                                       1. El usuario define la configuración del ensayo                        \\ 
+			                                                       2. El ensayo se ejecuta en su totalidad                                 \\ 
+			                                                       3. El sistema entrega un archivo con la figura de mérito                \\
 		                                            \end{tabular} \\ \hline
 		& 2.2 Fuljo alternativo                   & \begin{tabular}[c]{@{}l@{}}
-			                                                       1. El microcontrolador se reinicia                                      \\ 
-			                                                       2. El firmware genera un informe en formato \emph{CSV}                  \\ 
-			                                                       3. El firmware envía un reporte por \emph{UART}
+			                                                       1. Durante el ensayo sucede una excepción irrecuperable                 \\ 
+			                                                       2. El sistema genera un aviso de la situación por pantalla            \\ 
+			                                                       3. El sistema genera un archivo con toda la información \\recolectada
 		                                            \end{tabular}                                                                          \\ \hline
 		\multicolumn{2}{|l|}{3. Pre-condiciones}  &                                                                                        \\ \hline
 		\multicolumn{2}{|l|}{4. Pos-condiciones}  &                                                                                        \\ \hline
