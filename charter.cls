@@ -129,7 +129,7 @@
 \fancyhf{} % clear all header and footers
 \pagestyle{fancy}
 
-\lhead{\includegraphics[width=4cm]{./Figuras/logoFIUBA.png}}
+\lhead{\includegraphics[width=4cm]{./Figuras/logoFIUBA.pdf}}
 \chead{}
 \rhead{\normalsize \textrm{Especificación de requerimientos de software \\Evaluador de microcontroladores para misiones espaciales\\ \authorname}}
 \lfoot{ }
@@ -189,7 +189,7 @@
 		\vspace{1.9cm}
 		Evaluador de microcontroladores para misiones espaciales\\
 		\vspace{1.9cm}
-		\LARGE{Versión D}\\
+		\LARGE{Versión E}\\
 		\vspace{1.9cm}
 		Escrito por Gonzalo Nahuel Vaca\\
 		\vspace{1.9cm}

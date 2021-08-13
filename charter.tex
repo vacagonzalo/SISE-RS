@@ -76,6 +76,7 @@ D & Se conforma con las políticas de confidencialidad de INVAP. \newline
     Se modifica el título del proyecto. \newline
     Se revisan todos los requerimientos para que sean más específicos. \newline
     Se modifican los casos de uso según los nuevos requerimientos. & 11/07/2021 \\ \hline
+E & Correcciones generales para la publicación de la cátedra. & 13/08/2021 \\ \hline
 \end{tabularx}
 \end{table}
 
@@ -99,8 +100,8 @@ El proyecto incluirá dos módulos que funcionarán en ámbitos distintos.
 Ellos serán:
 
 \begin{itemize}
-	\item Inyector por consola de comando (CCI)
-	\item Proceso de dispositivo bajo prueba (DUT)
+	\item Inyector por consola de comando (CCI).
+	\item Proceso de dispositivo bajo prueba (DUT).
 \end{itemize}
 
 El ámbito de CCI será el ordenador del usuario; mientras que el proceso de DUT funcionará en el microcontrolador.
@@ -249,45 +250,45 @@ N/A
 \begin{enumerate}
 	\item CCI:
 		\begin{enumerate}
-			\item Con usuario:
+			\item Módulo para el usuario:
 				\begin{itemize}
-					\item \req{001} deberá representar todos los caracteres de ISO Std. 10646
-					\item \req{002} conformará con las secuencias de escape de ISO Std. 6429
-					\item \req{003} usará el castellano como idioma conforme a la Real Academia Española
-					\item \req{004} se aceptarán barbarismos que conformen la interfaz con los sistemas UNIX
-					\item \req{005} no deberá producir destellos ni cambios bruscos en su intensidad lumínica
+					\item \req{001} deberá representar todos los caracteres de ISO Std. 10646.
+					\item \req{002} cumplirá con las secuencias de escape especificadas en ISO Std. 6429.
+					\item \req{003} usará el castellano como idioma conforme a la Real Academia Española.
+					\item \req{004} se aceptarán barbarismos que conformen la interfaz con los sistemas UNIX.
+					\item \req{005} no deberá producir destellos ni cambios bruscos en su intensidad lumínica.
 					\item \req{006} no deberá producir sonidos
 					\item Títulos:
 						\begin{itemize}
-							\item \req{007} los títulos deberán ser cortos
-							\item \req{008} los títulos deberán estar correctamente capitalizados
-							\item \req{009} los títulos deberán ser únicos
+							\item \req{007} los títulos deberán tener una longitud máxima de 30 caracteres.
+							\item \req{008} los títulos deberán estar correctamente capitalizados.
+							\item \req{009} los títulos deberán ser únicos.
 						\end{itemize}
 					\item Comandos:
 						\begin{itemize}
-							\item \req{010} el sistema se iniciará con el comando ``python sise.py''
-							\item \req{011} el sistema imprimirá en pantalla un manual de ayuda con el comando ``python sise.py --help''
-							\item \req{012} se podrá exportar la configuración del último ensayo realizado con el comando ``python sise.py --export=Ruta''
-							\item \req{013} se podrá importar la configuración de un ensayo a realizar con el comando ``python sise.py --import=Ruta/Archivo''
+							\item \req{010} el sistema se iniciará con el comando \texttt{sise.py}.
+							\item \req{011} el sistema imprimirá en pantalla un manual de ayuda con el comando \texttt{sise --help}.
+							\item \req{012} se podrá exportar la configuración del último ensayo realizado con el comando \texttt{sise --export=Ruta}.
+							\item \req{013} se podrá importar la configuración de un ensayo a realizar con el comando \texttt{sise --import=Ruta/Archivo}.
 						\end{itemize}
 					\item Menú:
 						\begin{itemize}
-							\item \req{014} el sistema de menú tendrá una arquitectura de árbol
-							\item \req{015} la navegación entre los nodos del menú será consistente en todo el árbol
-							\item \req{016} se indicará en todo momento el nodo actual y todos los nodos que lleven a la raíz del árbol
+							\item \req{014} el sistema de menú tendrá una arquitectura de árbol.
+							\item \req{015} la navegación entre los nodos del menú será consistente en todo el árbol.
+							\item \req{016} se indicará en todo momento el nodo actual y todos los nodos que lleven a la raíz del árbol.
 						\end{itemize}
 				\end{itemize}
 			\item Con DUT:
 				\begin{itemize}
-					\item \req{017} la comunicación con UART será en 9600 baudios, 8 bits de datos, 1 bit de parada y 0 bits de paridad
-					\item \req{018} la comunicación con el debugger conformará con la configuración recomendada por el fabricante
+					\item \req{017} la comunicación con UART será en 9600 baudios, 8 bits de datos, 1 bit de parada y 0 bits de paridad.
+					\item \req{018} la comunicación con el debugger conformará con la configuración recomendada por el fabricante.
 				\end{itemize}
 		\end{enumerate}
 	\item Proceso de DUT:
 		\begin{itemize}
-			\item \req{019} la comunicación con el debugger estará disponible durante todo el flujo de la secuencia
-			\item \req{020} durante el flujo de la secuencia, la UART solo podrá transmitir información
-			\item \req{021} en el periodo entre secuencias, la UART podrá recibir y transmitir información
+			\item \req{019} la comunicación con el debugger estará disponible durante todo el flujo de la secuencia.
+			\item \req{020} durante el flujo de la secuencia, la UART solo podrá transmitir información.
+			\item \req{021} en el periodo entre secuencias, la UART podrá recibir y transmitir información.
 		\end{itemize}
 \end{enumerate}
 
@@ -297,37 +298,37 @@ N/A
 \begin{enumerate}
 	\item CCI:
 		\begin{itemize}
-			\item \req{022} detendrá la secuencia de duración $ T $ del DUT en un momento $ t $ definido como $ t \, \epsilon \, \rm I\!R^+ \wedge t \, < T$
-			\item \req{023} con la secuencia del DUT detenida, inyectará un SEFI-SEU que invertirá el valor de un bit de un registro interno
-			\item \req{024} La descripción del ensayo definirá el momento $ t $ de inyección de SEFI-SEU durante la secuencia de duración $ T $ y será un múltiplo de $\Delta t$ definido como $ \Delta t=T/N \, \forall \, N \epsilon \, \rm I\!N $
-			\item \req{025} La descripción del ensayo definirá la cantidad $ M $ de registros involucrados en la prueba
-			\item \req{026} La cantidad de secuencias $ L $ a ejecutar quedará definida como \\$ L = N \times M $
-			\item \req{027} Se ejecutará una secuencia de control sin inyección de SEFI-SEU antes de correr las $ L $ secuencias
-			\item \req{028} Por cada ejecución de una secuencia se obtendrá un valor de salida $ S $ del DUT
-			\item \req{030} Cada valor de salida $ S $ será persistido para su análisis
-			\item \req{031} Cada valor de salida $ S $ quedará asociado a su correspondiente secuencia con su inyección de SEFI-SEU y momento $ t $
-			\item \req{032} Se generará un archivo de resultados llamado\\ ``resultados-AAAAMMDDHHmm.res'', siendo AAAA el año del ensayo, MM el mes, DD el día, HH la hora y mm los minutos
-			\item \req{033} El archivo de resultados acumulará los SEFI y SEU de cada registro del DUT
-			\item \req{034} El archivo de resultados acumulará los SEU de cada periférico del DUT
+			\item \req{022} detendrá la secuencia de duración $ T $ del DUT en un momento $ t $ definido como $ t \, \epsilon \, \rm I\!R^+ \wedge t \, < T$.
+			\item \req{023} con la secuencia del DUT detenida, inyectará un SEFI-SEU que invertirá el valor de un bit de un registro interno.
+			\item \req{024} La descripción del ensayo definirá el momento $ t $ de inyección de SEFI-SEU durante la secuencia de duración $ T $ y será un múltiplo de $\Delta t$ definido como $ \Delta t=T/N \, \forall \, N \epsilon \, \rm I\!N $.
+			\item \req{025} La descripción del ensayo definirá la cantidad $ M $ de registros involucrados en la prueba.
+			\item \req{026} La cantidad de secuencias $ L $ a ejecutar quedará definida como \\$ L = N \times M $.
+			\item \req{027} Se ejecutará una secuencia de control sin inyección de SEFI-SEU antes de correr las $ L $ secuencias.
+			\item \req{028} Por cada ejecución de una secuencia se obtendrá un valor de salida $ S $ del DUT.
+			\item \req{030} Cada valor de salida $ S $ será persistido para su análisis.
+			\item \req{031} Cada valor de salida $ S $ quedará asociado a su correspondiente secuencia con su inyección de SEFI-SEU y momento $ t $.
+			\item \req{032} Se generará un archivo de resultados llamado\\ \texttt{resultados-AAAAMMDDHHmm.res}, siendo AAAA el año del ensayo, MM el mes, DD el día, HH la hora y mm los minutos.
+			\item \req{033} El archivo de resultados acumulará los SEFI y SEU de cada registro del DUT.
+			\item \req{034} El archivo de resultados acumulará los SEU de cada periférico del DUT.
 			\item \req{035} El archivo de resultados indicará el FOM del registro definido como:
 			$ FOM_{REG} = (1 - \frac{SEU}{SEFI}) $
 			\item \req{036} El archivo de resultados indicará el FOM del DUT definido como:
-			$ FOM_{DUT} = \frac{1}{M} \times \sum_{i = 1}^{i = M}FOM_{i} $ siendo $ i $ el número que representa un registro del DUT
-			\item \req{037} Se generará un archivo de histogramas llamado \\ ``histogramas-AAAAMMDDmm.his'' siendo AAAA el año del ensayo, MM el mes, DD el día, HH la hora y mm los minutos
-			\item \req{038} El archivo de histogramas tendrá una tabla que indique la frecuencia de fallos como función de los SEFIs por registro del DUT
-			\item \req{039} El archivo de histogramas tendrá una tabla que indique la frecuencia de fallos como función de los SEFIs por periférico del DUT
+			$ FOM_{DUT} = \frac{1}{M} \times \sum_{i = 1}^{i = M}FOM_{i} $ siendo $ i $ el número que representa un registro del DUT.
+			\item \req{037} Se generará un archivo de histogramas llamado \\ \texttt{histogramas-AAAAMMDDHHmm.his} siendo AAAA el año del ensayo, MM el mes, DD el día, HH la hora y mm los minutos.
+			\item \req{038} El archivo de histogramas tendrá una tabla que indique la frecuencia de fallos como función de los SEFIs por registro del DUT.
+			\item \req{039} El archivo de histogramas tendrá una tabla que indique la frecuencia de fallos como función de los SEFIs por periférico del DUT.
 		\end{itemize}
 	\item Proceso de DUT:
 		\begin{itemize}
-			\item \req{040} deberá correr una secuencia de autoevaluación cuya ejecución durará un tiempo $ T $
-			\item \req{041} deberá producir una salida $ S $ que podrá ser un estado o una secuencia de estados
-			\item \req{042} este proceso podrá tener una entrada $ E $
-			\item \req{043} deberá evaluar el estado de los periféricos del DUT
-			\item \req{044} tendrá una función de evaluación para cada uno de los periféricos del DUT
-			\item \req{045} se podrá definir por la entrada $ E $ si se desea excluir uno o más periféricos en la secuencia
-			\item \req{046} manejará una interrupción del flujo normal de la secuencia y generará una salida $ S $ indicando la excepción, por ejemplo: interrupción por \emph{watchdog}
-			\item \req{047} la salida $ S $ utilizará la UART del DUT para ser transmitida
-			\item \req{048} la entrada $ E $ utilizará la UART del DUT para ser recibida
+			\item \req{040} deberá correr una secuencia de autoevaluación cuya ejecución durará un tiempo $ T $.
+			\item \req{041} deberá producir una salida $ S $ que podrá ser un estado o una secuencia de estados.
+			\item \req{042} este proceso podrá tener una entrada $ E $.
+			\item \req{043} deberá evaluar el estado de los periféricos del DUT.
+			\item \req{044} tendrá una función de evaluación para cada uno de los periféricos del DUT.
+			\item \req{045} se podrá definir por la entrada $ E $ si se desea excluir uno o más periféricos en la secuencia.
+			\item \req{046} manejará una interrupción del flujo normal de la secuencia y generará una salida $ S $ indicando la excepción, por ejemplo: interrupción por \emph{watchdog}.
+			\item \req{047} la salida $ S $ utilizará la UART del DUT para ser transmitida.
+			\item \req{048} la entrada $ E $ utilizará la UART del DUT para ser recibida.
 		\end{itemize}
 \end{enumerate}
 
@@ -335,17 +336,17 @@ N/A
 \label{sub:rendimiento}
 
 \begin{itemize}
-	\item \req{049} la inyección de SEFI-SEU podrá tener un desvío en su momento $ t $ de 10 ms
-	\item \req{050} el desvío tolerado de $ t $ deberá representar como máximo el 1\% de la duración $ T $ de la secuencia del DUT
-	\item \req{051} aceptará un $ \Delta t $ que como mínimo represente el 5\% de la duración $ T $ de la secuencia del DUT
+	\item \req{049} la inyección de SEFI-SEU podrá tener un desvío en su momento $ t $ de 10 ms.
+	\item \req{050} el desvío tolerado de $ t $ deberá representar como máximo el 1\% de la duración $ T $ de la secuencia del DUT.
+	\item \req{051} aceptará un $ \Delta t $ que como mínimo represente el 5\% de la duración $ T $ de la secuencia del DUT.
 \end{itemize}
 
 \subsection{Restricciones de diseño}
 \label{sub:restriccionesDiseño}
 
 \begin{itemize}
-	\item \req{052} se utilizará como dispositivo principal el microcontrolador seleccionado por INVAP
-	\item \req{053} se utilizará un sistema operativo de tiempo real para diseñar el Proceso de DUT
+	\item \req{052} se utilizará como dispositivo principal el microcontrolador seleccionado por INVAP.
+	\item \req{053} se utilizará un sistema operativo de tiempo real para diseñar el Proceso de DUT.
 \end{itemize}
 
 \subsection{Atributos del sistema}
@@ -354,7 +355,7 @@ N/A
 \begin{enumerate}
 	\item Mantenibilidad:
 	\begin{itemize}
-		\item \req{053} el Proceso de DUT se desarrollará con un modelo de capas
+		\item \req{053} el Proceso de DUT se desarrollará con un modelo de capas.
 	\end{itemize}
 \end{enumerate}
 
